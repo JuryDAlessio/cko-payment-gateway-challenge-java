@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  bank_simulator:
-    container_name: bank_simulator
+  bank_simulator_java:
+    container_name: bank_simulator_java
     image: bbyars/mountebank:2.8.1
     ports:
       - "2525:2525"
@@ -12,4 +12,14 @@ services:
       - type: bind
         source: ./imposters
         target: /imposters
+
+  payment-gateway:
+    build: .
+    ports:
+      - "8090:8090"
+    environment:
+        # The app uses the simulator's exact service name as the URL host
+        - BANK_SIMULATOR_URL=http://bank_simulator_java:8080/payments
+    depends_on:
+        - bank_simulator_java
       
