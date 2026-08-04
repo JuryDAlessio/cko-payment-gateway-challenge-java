@@ -23,7 +23,6 @@ public class PaymentsRepository {
   private static final Logger LOG = LoggerFactory.getLogger(PaymentsRepository.class);
   private final ConcurrentHashMap<UUID, PostPaymentResponse> payments = new ConcurrentHashMap<>();
 
-  // Tracks requests chronologically for the duplicate window
   private record HistoryEntry(PostPaymentRequest request, PostPaymentResponse response, Instant timestamp) {}
   private final List<HistoryEntry> history = new ArrayList<>();
 
