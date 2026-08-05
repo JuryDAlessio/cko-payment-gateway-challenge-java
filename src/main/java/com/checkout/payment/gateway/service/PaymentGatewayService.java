@@ -35,7 +35,6 @@ public class PaymentGatewayService {
   }
 
   public PostPaymentResponse processPayment(PostPaymentRequest request) {
-    // 1. Validate, save as REJECTED, and throw an error for the controller advice
     Set<ConstraintViolation<PostPaymentRequest>> violations = validator.validate(request);
     if (!violations.isEmpty()) {
       savePayment(request, PaymentStatus.REJECTED);
@@ -49,16 +48,14 @@ public class PaymentGatewayService {
       throw new IllegalArgumentException(errorMessage);
     }
 
-    // 2. Check for duplicates
     Optional<PostPaymentResponse> duplicate = paymentsRepository.findRecentDuplicate(request, 5);
     if (duplicate.isPresent()) {
       return duplicate.get();
     }
 
-    // 3. Process external payment
     PaymentStatus status = bankClient.processPayment(request);
 
-    // 4. Save and return
+
     return savePayment(request, status);
   }
 
