@@ -51,8 +51,7 @@ To run the application locally, you'll first need the bank simulator running. As
 3. The gateway will be available at `http://localhost:8090`.
 
 ### Running with Docker
-If you've Dockerized the gateway itself alongside the simulator, you can build and spin up the entire stack:
-Run via Docker Compose: `docker-compose up --build`
+You can also build and spin up the entire stack via Docker Compose: `docker-compose up --build`
 
 ## Assumptions
 * **Data Persistence:** For this phase, an in-memory data store is sufficient. Data will be lost when the application restarts.
